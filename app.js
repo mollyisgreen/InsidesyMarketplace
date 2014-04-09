@@ -65,6 +65,7 @@ app.get('/harvard', routes.harvard);
 app.get('/about', routes.about);
 app.get('/yourguide', routes.yourguide);
 app.post('/submitSuggestion', db.submitSuggestion);
+app.post('/signup', db.signup);
 app.post('/saveEmail', db.saveEmail);
 app.get('/purchased', routes.purchased);
 
