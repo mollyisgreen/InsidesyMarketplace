@@ -80,7 +80,7 @@ var userSchema = mongoose.Schema({
     name        : String,
     email       : String,
     password    : String,
-    updated_at  : Date.now()  
+    updated_at  : Date 
 }) 
  
 var User = mongoose.model( 'User', userSchema );
