@@ -75,3 +75,7 @@ exports.saveEmail = function(req, res){
 exports.signup = function(req, res){
 
 }
+
+exports.login = function(req, res){
+
+}
