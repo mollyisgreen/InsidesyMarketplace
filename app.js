@@ -5,7 +5,6 @@
 
 
 db = require('./db');
-// config = require('./sensitive.config');
 var dotenv = require('dotenv');
 dotenv.load();
 
@@ -17,19 +16,15 @@ var https = require('http');
 var path = require('path');
 var fs = require('fs');
 var app = express();
-// var stripe = require("stripe")(config.stripePublicKey);
+var passport = require('passport');
+var flash = require('connect-flash');
 var stripe = require("stripe")(process.env.stripePublicKey);
 
-app.use(express.cookieParser('secret'));
 
-// redirect to https
-function redirectSec(req, res, next) {
-        if (req.headers['x-forwarded-proto'] == 'http') { 
-            res.redirect('https://' + req.headers.host + req.path);
-        } else {
-            return next();
-        }
-    }
+require('./routes/index.js')(app, passport);
+require('./config/passport')(passport);
+
+app.use(express.cookieParser('secret'));
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -39,15 +34,20 @@ app.set('views', path.join(__dirname, 'views'));
 // having to name the views as *.ejs
 app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
-
 app.use(express.favicon());
-
-// uploaded files goes to uploads directory
 app.use(express.bodyParser());
-
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
+
+
+// required for passport
+app.use(express.session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
@@ -58,19 +58,9 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-// allows https redirection
-app.get('/', redirectSec, routes.index);
-//app.get('/', routes.index);
-app.get('/harvard', routes.harvard);
-app.get('/about', routes.about);
-app.get('/yourguide', routes.yourguide);
-app.post('/submitSuggestion', db.submitSuggestion);
-app.post('/signup', db.signup);
-app.post('/login', db.login);
-app.post('/saveEmail', db.saveEmail);
-app.get('/purchased', routes.purchased);
 
-// delete  line below later b/c useless --- just for reference
+app.post('/submitSuggestion', db.submitSuggestion);
+app.post('/saveEmail', db.saveEmail);
 app.get('/users', user.list);
 
 
