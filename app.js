@@ -8,6 +8,7 @@ db = require('./db');
 var dotenv = require('dotenv');
 dotenv.load();
 
+var flash = require('connect-flash');
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
@@ -17,40 +18,41 @@ var path = require('path');
 var fs = require('fs');
 var app = express();
 var passport = require('passport');
-var flash = require('connect-flash');
 var stripe = require("stripe")(process.env.stripePublicKey);
 
 
 require('./routes/index.js')(app, passport);
-require('./config/passport')(passport);
-
-app.use(express.cookieParser('secret'));
-
-// all environments
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-// Using the .html extension instead of
-// having to name the views as *.ejs
-app.engine('.html', require('ejs').__express);
-app.set('view engine', 'html');
-app.use(express.favicon());
-app.use(express.bodyParser());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
+require('./passport')(passport);
 
 
-// required for passport
-app.use(express.session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+
+app.configure(function() {
+
+	// all environments
+	app.set('port', process.env.PORT || 3000);
+	app.set('views', path.join(__dirname, 'views'));
+	app.engine('.html', require('ejs').__express);
+	app.set('view engine', 'html');
+	
+	app.use(express.cookieParser('secret'));
+	app.use(express.favicon());
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.logger('dev'));
+	app.use(express.json());
+	app.use(express.urlencoded());
 
 
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+	// required for passport
+	app.use(express.session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+	app.use(flash()); // use connect-flash for flash messages stored in session
+	app.use(passport.initialize());
+	app.use(passport.session()); // persistent login sessions
+
+	app.use(app.router);
+	app.use(express.static(path.join(__dirname, 'public')));
+
+});
 
 
 // development only
@@ -71,7 +73,6 @@ app.post('/charge', function(req, res){
 	//stripe.setApiKey(config.stripeSecretKey);
 	stripe.setApiKey(process.env.stripeSecretKey);
 
-	// (Assuming you're using express - expressjs.com)
 	// Get the credit card details submitted by the form
 	var stripeToken = req.body.stripeToken;
 	
