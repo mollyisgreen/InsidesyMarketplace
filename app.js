@@ -26,7 +26,6 @@ require('./routes/dashboard.js')(app, passport);
 require('./passport')(passport);
 
 
-
 app.configure(function() {
 
 	// all environments
@@ -45,7 +44,7 @@ app.configure(function() {
 
 
 	// required for passport
-	app.use(express.session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+	app.use(express.session({ secret: 'passportbaby' })); // session secret
 	app.use(flash()); // use connect-flash for flash messages stored in session
 	app.use(passport.initialize());
 	app.use(passport.session()); // persistent login sessions
