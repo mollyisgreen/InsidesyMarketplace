@@ -39,17 +39,11 @@ module.exports = function(app, passport) {
 		}
 	});
 
-	app.get('/dashboard', isLoggedIn, function(req, res) {
-		res.render('dashboard.html', {
-			user : req.user // get the user out of session and pass to template
-		});
-	});
-
 	// process the signup form
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect : '/dashboard',
 		failureRedirect : '/',
-		failureFlash: false
+		failureFlash: true
 	}));
 
 };

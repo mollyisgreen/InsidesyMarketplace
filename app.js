@@ -22,6 +22,7 @@ var stripe = require("stripe")(process.env.stripePublicKey);
 
 
 require('./routes/index.js')(app, passport);
+require('./routes/dashboard.js')(app, passport);
 require('./passport')(passport);
 
 
