@@ -16,6 +16,7 @@ mongoose.connect(uristring, function (err, db) {
 var db = mongoose.connection;
 
 
+
 //////////////////////////////////////////////////////////////////////////////////////////
 
 // suggestions
@@ -47,7 +48,6 @@ exports.submitSuggestion = function(req, res){
     return res.send(suggestion);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////
 
 // save email
 var emailSchema = mongoose.Schema({
@@ -74,3 +74,40 @@ exports.saveEmail = function(req, res){
 
     return res.send(email);
 }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+// DASHBOARD RELATED
+
+// save email
+var guideSchema = mongoose.Schema({
+    content    : Buffer,
+    //author    : String,
+    updated_at : Date
+}) 
+ 
+var Guide = mongoose.model( 'Guide', guideSchema );
+
+exports.uploadFile = function(req, res){
+    console.log('hi');
+    
+    var guide = new Guide({
+        content    : req.body,
+        updated_at : Date.now()   
+    });
+
+    guide.save(function (err) {
+        if (!err) {
+            return res.send(guide);
+        } else {
+            console.log(err);
+            return res.send(404, { error: "Guide was not saved." });
+        }
+    });
+
+    return res.send(guide);
+}
+
+
+
