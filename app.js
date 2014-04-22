@@ -21,11 +21,6 @@ var passport = require('passport');
 var stripe = require("stripe")(process.env.stripePublicKey);
 
 
-require('./routes/index.js')(app, passport);
-require('./routes/dashboard.js')(app, passport);
-require('./passport')(passport);
-
-
 app.configure(function() {
 
 	// all environments
@@ -53,6 +48,11 @@ app.configure(function() {
 	app.use(express.static(path.join(__dirname, 'public')));
 
 });
+
+
+require('./routes/index.js')(app, passport);
+require('./routes/dashboard.js')(app, passport);
+require('./passport')(passport);
 
 
 // development only

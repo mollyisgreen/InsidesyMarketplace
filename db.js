@@ -49,6 +49,9 @@ exports.submitSuggestion = function(req, res){
 }
 
 
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
 // save email
 var emailSchema = mongoose.Schema({
     content    : String,
@@ -82,6 +85,7 @@ exports.saveEmail = function(req, res){
 
 // save email
 var guideSchema = mongoose.Schema({
+    //maybe needs to be different
     content    : Buffer,
     //author    : String,
     updated_at : Date
@@ -90,9 +94,9 @@ var guideSchema = mongoose.Schema({
 var Guide = mongoose.model( 'Guide', guideSchema );
 
 exports.uploadFile = function(req, res){
-    console.log('hi');
-    
+
     var guide = new Guide({
+        //maybe needs to be different - save add'l info for identifaction later
         content    : req.body,
         updated_at : Date.now()   
     });
