@@ -6,7 +6,7 @@ var userSchema = mongoose.Schema({
     	name		: String,
         email       : {type: String, unique: true, sparse: true},
         password    : String,
-        updated_at  : Date 
+        created  	: Date
     }
 }) 
  
