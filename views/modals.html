@@ -9,9 +9,9 @@
                   var hasError = false;
                   var passwordVal = $("#password").val();
                   var repasswordVal = $("#repassword").val();
-                  var emailVal = $('#email').val();
+                  var emailVal = $("#email").val();
                   var re = /^(?=.*[a-zA-Z!@#$&*])(?=.*[0-9]).{6,}$/;
-                  var emailRe = /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})$/;
+                  var reEmail = /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})$/;
 
                   //make sure password meets requirements - at least one char and number
                   if (!re.test(passwordVal)) {
@@ -26,7 +26,7 @@
                   }
 
                   // make sure email is email format
-                  if (!re.test(emailVal)) {
+                  if (!reEmail.test(emailVal)) {
                         $("#repassword").after('<span class="error">Please enter a proper email.</span></br>');
                         hasError = true;
                   }
