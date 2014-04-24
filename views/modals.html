@@ -1,21 +1,41 @@
-
 <!-- Sign up Modal -->
 <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+
+
+
 	<div class="modal-dialog">
 
-		<form action="/signup" method="post" id="signupForm" accept-charset="utf-8">
-      		<input class="suggestionBox" name="name" type="text" placeholder="name">
+           <script>
 
-      		<input class="suggestionBox" name="email" type="text" placeholder="email">
+            function checkPassword() {
+                  $(".error").hide();
+                        var hasError = false;
+                        var passwordVal = $("#password").val();
+                        var repasswordVal = $("#repassword").val();
+                        if (passwordVal != repasswordVal ) {
+                              $("#repassword").after('<span class="error">Passwords do not match.</span>');
+                              hasError = true;
+                        }
+                        if(hasError == true) {return false;}
+            }
 
-      	    <input class="suggestionBox" name="password" type="password" placeholder="password">
+      </script>
 
-      	    <input class="suggestionBox" name="repassword" type="password" placeholder="re-enter password">
+		<form onsubmit="return checkPassword()" method="post" action="/signup" id="signupForm" accept-charset="utf-8">
+      	     <input class="suggestionBox" name="name" type="text" placeholder="name" required>
 
-      	    <button type="submit" class="btn btn-primary">Sign up</button>
+      	     <input class="suggestionBox" name="email" type="text" placeholder="email" required>
+
+      	     <input id="password" class="suggestionBox" name="password" type="password" placeholder="password" required>
+
+      	     <input id="repassword" class="suggestionBox" name="repassword" type="password" placeholder="re-enter password" required>
+
+      	    <button id="submit" type="submit" class="btn btn-primary">Sign up</button>
       	</form>
 
 	</div>
+
+
 </div>
 
 
@@ -25,9 +45,9 @@
 
 		<form action="/login" method="post" id="loginForm" accept-charset="utf-8">
 
-      		<input class="suggestionBox" name="email" type="text" placeholder="email">
+      		<input class="suggestionBox" name="email" type="text" placeholder="email" required>
 
-      	    <input class="suggestionBox" name="password" type="password" placeholder="password">
+      	    <input class="suggestionBox" name="password" type="password" placeholder="password" required>
 
       	    <button type="submit" class="btn btn-primary">Log in</button>
       	</form>

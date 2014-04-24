@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
 
 	// allows http redirection
 	app.get('/', redirectSec, function(req, res){
-	  res.render('index.html', { title: 'Express' });
+	  res.render('index.html', { messages: req.flash("failureFlash")} );
 	});
 
 	app.get('/harvard', function(req, res){
