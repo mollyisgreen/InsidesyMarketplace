@@ -16,7 +16,7 @@ module.exports = function(app, passport) {
 
 	// allows http redirection
 	app.get('/', redirectSec, function(req, res){
-	  res.render('index.html', { messages: req.flash("failureFlash")} );
+	  res.render('index.html', { title: 'Express' } );
 	});
 
 	app.get('/harvard', function(req, res){
@@ -31,6 +31,10 @@ module.exports = function(app, passport) {
 	  res.render('yourguide.html', { title: 'Express' });
 	});
 
+	app.get('/signupAttempt', function(req, res){
+	  res.render('signupAttempt.html', { title: 'Express' });
+	});
+
 	app.get('/purchased', function(req, res){
 		if (req.cookies.remember) {
 	  		res.render('purchased.html', { title: 'Express' });
@@ -43,7 +47,7 @@ module.exports = function(app, passport) {
 	app.post('/signup', 
 		passport.authenticate('local-signup', {
 		successRedirect : '/dashboard',
-		failureRedirect : '/',
+		failureRedirect : '/signupAttempt',
 		failureFlash: true
 	}));
 
