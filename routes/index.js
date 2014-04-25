@@ -35,6 +35,10 @@ module.exports = function(app, passport) {
 	  res.render('signupAttempt.html', { title: 'Express' });
 	});
 
+	app.get('/loginAttempt', function(req, res){
+	  res.render('loginAttempt.html', { title: 'Express' });
+	});
+
 	app.get('/purchased', function(req, res){
 		if (req.cookies.remember) {
 	  		res.render('purchased.html', { title: 'Express' });
@@ -49,6 +53,13 @@ module.exports = function(app, passport) {
 		successRedirect : '/dashboard',
 		failureRedirect : '/signupAttempt',
 		failureFlash: true
+	}));
+
+	// login
+	app.post('/login', passport.authenticate('local-login', {
+		successRedirect : '/dashboard',
+		failureRedirect : '/loginAttempt',
+		failureFlash : true
 	}));
 
 };
