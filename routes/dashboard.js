@@ -1,16 +1,16 @@
 module.exports = function(app, passport) {
-/*
+
 	app.get('/dashboard', isLoggedIn, function(req, res) {
 		res.render('dashboard.html', {
 			user : req.user // get the user out of session and pass to template
 		});
 	});
-*/
 
+/*
 	app.get('/dashboard', function(req, res){
 	  res.render('dashboard.html', { title: 'Express' });
 	});
-
+*/
 
 };
 
@@ -21,8 +21,8 @@ function isLoggedIn(req, res, next) {
 	if (req.isAuthenticated())
 		return next();
 
-	// if they aren't redirect them to the home page
-	res.redirect('/');
+	// if they aren't redirect
+	res.redirect('/loginAttempt');
 }
 
 
