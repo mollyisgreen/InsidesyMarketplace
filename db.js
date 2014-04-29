@@ -48,7 +48,7 @@ exports.submitSuggestion = function(req, res){
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
 
 
 // save email
@@ -78,7 +78,7 @@ exports.saveEmail = function(req, res){
 }
 
 
-////////////////////////  GUIDE EDITING/UPLOADING RELATED    /////////////////////////////
+////////////////////////  GUIDE EDITING/UPLOADING RELATED    ///////////////
 
 
 // save email
@@ -116,13 +116,14 @@ exports.uploadguide = function(req, res){
     });
 
 
+    console.log(db.collection("users").find({ email: "ejim@gmail.com" }));
+
+
     // save guide id to user document
-
-    var guideID = guide.id;
-
+    // save email from session
     db.collection("users").update(
-        { email: "ejim@gmail.com" },
-        { $push: { guidearray: guideID } },
+        { "local.email": "ejim@gmail.com" },
+        { $push: { guidearray: guide.id } }, 
         function (err, result) {
             if (err) throw err;
         });
@@ -130,5 +131,5 @@ exports.uploadguide = function(req, res){
 
 }
 
-////////////////////////   DASHBOARD RELATED     /////////////////////////
+////////////////////////   DASHBOARD RELATED     ////////////////
 
