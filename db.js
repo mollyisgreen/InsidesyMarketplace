@@ -16,7 +16,6 @@ mongoose.connect(uristring, function (err, db) {
 var db = mongoose.connection;
 
 
-
 //////////////////////////////////////////////////////////////////////////////////////////
 
 // suggestions
@@ -79,25 +78,31 @@ exports.saveEmail = function(req, res){
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////  GUIDE EDITING/UPLOADING RELATED    /////////////////////////////
 
-// DASHBOARD RELATED
 
 // save email
 var guideSchema = mongoose.Schema({
     //maybe needs to be different
-    content    : Buffer,
+    guide       : Buffer,
+    //authorEmail : String,
     //author    : String,
+    // description  : String,
+    // photo: ?,
+    // title: String,
+    // pages: 
+    // price: 
+    // 
     updated_at : Date
 }) 
  
 var Guide = mongoose.model( 'Guide', guideSchema );
 
-exports.uploadFile = function(req, res){
+exports.uploadguide = function(req, res){
 
     var guide = new Guide({
-        //maybe needs to be different - save add'l info for identifaction later
-        content    : req.body,
+        // TODO: add parts
+        guide    : req.body,
         updated_at : Date.now()   
     });
 
@@ -110,8 +115,20 @@ exports.uploadFile = function(req, res){
         }
     });
 
-    return res.send(guide);
+
+    // save guide id to user document
+
+    var guideID = guide.id;
+
+    db.collection("users").update(
+        { email: "ejim@gmail.com" },
+        { $push: { guidearray: guideID } },
+        function (err, result) {
+            if (err) throw err;
+        });
+
+
 }
 
-
+////////////////////////   DASHBOARD RELATED     /////////////////////////
 

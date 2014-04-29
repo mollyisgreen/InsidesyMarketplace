@@ -31,10 +31,6 @@ module.exports = function(app, passport) {
 	  res.render('yourguide.html', { title: 'Express' });
 	});
 
-	app.get('/guide', function(req, res){
-	  res.render('guide.html', { title: 'Express' });
-	});
-
 	app.get('/signupAttempt', function(req, res){
 	  res.render('signupAttempt.html', { title: 'Express' });
 	});

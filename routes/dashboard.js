@@ -6,11 +6,6 @@ module.exports = function(app, passport) {
 		});
 	});
 
-/*
-	app.get('/dashboard', function(req, res){
-	  res.render('dashboard.html', { title: 'Express' });
-	});
-*/
 
 };
 

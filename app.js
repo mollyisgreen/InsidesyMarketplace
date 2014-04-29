@@ -52,7 +52,7 @@ app.configure(function() {
 
 require('./routes/index.js')(app, passport);
 require('./routes/dashboard.js')(app, passport);
-require('./routes/editguide.js')(app, passport);
+require('./routes/guide.js')(app, passport);
 require('./passport')(passport);
 
 
@@ -64,7 +64,7 @@ if ('development' == app.get('env')) {
 
 app.post('/submitSuggestion', db.submitSuggestion);
 app.post('/saveEmail', db.saveEmail);
-app.post('/uploadFile', db.uploadFile);
+app.post('/uploadguide', db.uploadguide);
 app.get('/users', user.list);
 
 
