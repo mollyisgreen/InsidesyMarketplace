@@ -92,7 +92,7 @@ app.post('/charge', function(req, res){
 	var twentyMin = 60 * 1000 * 20;
   	res.cookie('remember', 1, { maxAge: twentyMin });
 
-	res.redirect("/purchased");
+	res.redirect("/purchasedharvard");
 });
 
 

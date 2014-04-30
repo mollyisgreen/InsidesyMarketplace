@@ -82,7 +82,7 @@ exports.saveEmail = function(req, res){
 // save email
 var guideSchema = mongoose.Schema({
     //maybe needs to be different
-    guide       : String,
+    guide       : Buffer,
     //authorEmail : String,
     //author    : String,
     // description  : String,
@@ -90,7 +90,6 @@ var guideSchema = mongoose.Schema({
     // title: String,
     // pages: 
     // price: 
-    // 
     updated_at : Date
 }) 
  
@@ -135,6 +134,10 @@ exports.uploadguide = function(req, res){
         res.redirect('/guide');
     });
 
+}
+
+exports.downloadguide = function(req, res){
+    
 }
 
 

@@ -39,9 +39,9 @@ module.exports = function(app, passport) {
 	  res.render('loginAttempt.html', { title: 'Express' });
 	});
 
-	app.get('/purchased', function(req, res){
+	app.get('/purchasedharvard', function(req, res){
 		if (req.cookies.remember) {
-	  		res.render('purchased.html', { title: 'Express' });
+	  		res.render('purchasedharvard.html', { title: 'Express' });
 		} else {
 			res.redirect("/");
 		}
