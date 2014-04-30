@@ -1,19 +1,17 @@
-var dotenv = require('dotenv');
+var dotenv      = require('dotenv');
 dotenv.load();
-
-var crypto = require('crypto');
-var bcrypt   = require('bcrypt-nodejs');
-
-var mongoose = require('mongoose');
-var uristring = process.env.mongoUriString;
-
+var crypto      = require('crypto');
+var bcrypt      = require('bcrypt-nodejs');
+var mongoose    = require('mongoose');
+var uristring   = process.env.mongoUriString;
+var fs          = require('fs');
 
 mongoose.connect(uristring, function (err, db) {
   console.log ('Succeeded connected to: ' + uristring);
   if (err) {throw err;}
 });
 
-var db = mongoose.connection;
+var db          = mongoose.connection;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -78,13 +76,13 @@ exports.saveEmail = function(req, res){
 }
 
 
-////////////////////////  GUIDE EDITING/UPLOADING RELATED    ///////////////
+////////////////////////  GUIDE EDITING/UPLOADING send    ///////////////
 
 
 // save email
 var guideSchema = mongoose.Schema({
     //maybe needs to be different
-    guide       : Buffer,
+    guide       : String,
     //authorEmail : String,
     //author    : String,
     // description  : String,
@@ -98,38 +96,47 @@ var guideSchema = mongoose.Schema({
  
 var Guide = mongoose.model( 'Guide', guideSchema );
 
+
 exports.uploadguide = function(req, res){
 
-    var guide = new Guide({
-        // TODO: add parts
-        guide    : req.body,
-        updated_at : Date.now()   
-    });
+    // read in file content
+    fs.readFile(req.files.guide.path, function (err, data) {
+        if (err) throw err;
+        console.log(data);
+        // store file content
+        var guideContent = data;
 
-    guide.save(function (err) {
-        if (!err) {
-            return res.send(guide);
-        } else {
-            console.log(err);
-            return res.send(404, { error: "Guide was not saved." });
-        }
-    });
-
-
-    console.log(db.collection("users").find({ email: "ejim@gmail.com" }));
-
-
-    // save guide id to user document
-    // save email from session
-    db.collection("users").update(
-        { "local.email": "ejim@gmail.com" },
-        { $push: { guidearray: guide.id } }, 
-        function (err, result) {
-            if (err) throw err;
+        var guide = new Guide({
+            // TODO: add parts
+            guide    : guideContent,
+            updated_at : Date.now()   
         });
 
+        console.log(guideContent);
+
+        guide.save(function (err) {
+            if (!err) {
+                return res.send(guide);
+            } else {
+                console.log(err);
+                return res.send(404, { error: "Guide was not saved." });
+            }
+        });
+
+        // save guide id to user document
+        // save email from session
+        db.collection("users").update(
+            { "local.email": "ejim@gmail.com" },
+            { $push: { guidearray: guide.id } }, 
+            function (err, result) {
+                if (err) throw err;
+            });
+
+        res.redirect('/guide');
+    });
 
 }
+
 
 ////////////////////////   DASHBOARD RELATED     ////////////////
 
