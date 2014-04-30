@@ -146,7 +146,8 @@ exports.uploadguide = function(req, res){
 }
 
 exports.downloadguide = function(req, res){
-    res.download(db.collection("guides").find({authorEmail: "ejim@gmail.com"}));
+    var file = __dirname + '/public/guideuploads/Harvard.pdf';
+    res.download(file); // Set disposition and send it.
 }
 
 
