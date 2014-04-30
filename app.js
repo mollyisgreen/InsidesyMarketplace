@@ -65,6 +65,7 @@ if ('development' == app.get('env')) {
 app.post('/submitSuggestion', db.submitSuggestion);
 app.post('/saveEmail', db.saveEmail);
 app.post('/uploadguide', db.uploadguide);
+app.get('/downloadguide', db.downloadguide);
 app.get('/users', user.list);
 
 
